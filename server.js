@@ -27,9 +27,19 @@ app.get('/list', (request, response) => {
 app.post('/view', (request, response) => {
     let namePage = request.body.text
 	console.log(namePage)
-	let dir = 'text/' + namePage;
+	let dir = 'textos/' + namePage;
+    fs.readFile(path.resolve(__dirname, dir), 'utf8',
+		(err, data) => {
+			if (err) {
+				console.error(err)
+				response.status(500).json({
+					error: 'message'
+				})
+				return
+			}
+			response.json({
+				text: data.replace(/\n/g, '<br>')
+			})
+		})
 	response.setHeader('Content-Type', 'application/json')
-	response.end(JSON.stringify({
-		text: namePage
-	}))
 })

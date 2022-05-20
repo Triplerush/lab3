@@ -23,7 +23,7 @@ function viewPages(name) {
 	}
 	
 	const request = {
-		method: 'POST', // Podría ser GET
+		method: 'POST', 
 		headers: {
 			'Content-Type': 'application/json',
 		},
