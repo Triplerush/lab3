@@ -44,15 +44,37 @@ function formPage(){
             
                 <input type="text" id="markupTitle" placeholder='Ingrese el titulo'>
 				<textarea id="markupText" rows="10" cols="50" placeholder='Ingrese el texto'></textarea>
-				<input type="submit">
+				<input type="submit" id='enviar'>
   			</form>
-			<button onclick='listView()'>Lista</button>  
+			<button onclick='listar()'>Lista</button>  
 
 	`
 	document.querySelector("#lista").innerHTML = html
-	createMarkdown()
-
+	noNullForm()
+    createMarkdown()
 }
+
+function noNullForm(){
+	const title = document.querySelector('#markupTitle');
+	const text= document.querySelector('#markupText');
+	const boton = document.querySelector('#enviar');
+	boton.disabled = true;
+	title.onkeyup = () =>{
+		if(title.value.length > 0 && text.value.length > 0){
+			boton.disabled = false;
+		}else{
+			boton.disabled = true;
+		}
+	};
+	text.onkeyup = () =>{
+		if(text.value.length > 0 && title.value.length > 0){
+			boton.disabled = false;
+		}else{
+			boton.disabled = true;
+		}
+	};
+}
+
 function createMarkdown(){
 	const text = document.querySelector('#markupText')
     const title = document.querySelector('#markupTitle')
