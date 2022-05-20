@@ -5,13 +5,13 @@ function listar() {
       response => response.json()
     ).then(
       data => {
-        let html = '<ul>';
+        let html = '    <h1>Lista de páginas</h1>\n<ul>';
         for(let i=0; i<data.text.length;i++){
             var name = data.text[i];
           html += '<li onclick=viewPages("'+name+'")>' + name + '</li>'
         }
         html += '</ul>\n<button onclick=formPage()>Crear</button>'
-        document.querySelector("#lista").innerHTML = html
+        document.querySelector("#main").innerHTML = html
       }
     )
 }
@@ -33,7 +33,7 @@ function viewPages(name) {
 		response => response.json()
 	).then(
 		data => {  
-			document.querySelector("#lista").innerHTML = data.text
+			document.querySelector("#main").innerHTML = data.text
 		}
 	)
 }
@@ -42,14 +42,14 @@ function formPage(){
 	html =  `
 			<form id="markupForm">
             
-                <input type="text" id="markupTitle" placeholder='Ingrese el titulo'>
+                <input type="text" id="markupTitle" placeholder='Ingrese el titulo'><br>
 				<textarea id="markupText" rows="10" cols="50" placeholder='Ingrese el texto'></textarea>
 				<input type="submit" id='enviar'>
   			</form>
 			<button onclick='listar()'>Lista</button>  
 
 	`
-	document.querySelector("#lista").innerHTML = html
+	document.querySelector("#main").innerHTML = html
 	noNullForm()
     createMarkdown()
 }
@@ -80,9 +80,32 @@ function createMarkdown(){
     const title = document.querySelector('#markupTitle')
 
     document.querySelector('#markupForm').onsubmit = () => {
-		console.log(title.value,text.value)
+		crearPage(title.value,text.value)
 	  	return false;
 	}
+}
+
+function crearPage(titlePage, textPage) {
+    const url = 'http://localhost:3000/create'
+	const data = {
+		title: titlePage,
+        text: textPage
+	}
+	const request = {
+		method: 'POST', // Podría ser GET
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	}
+	fetch(url, request).then(
+		response => response.json()
+	).then(
+		data => {  
+			console.log(data)
+		}
+	)
+    listar()
 }
 
 document.addEventListener('DOMContentLoaded', function() {listar()})

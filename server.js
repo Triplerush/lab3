@@ -44,3 +44,19 @@ app.post('/view', (request, response) => {
 		})
 	response.setHeader('Content-Type', 'application/json')
 })
+
+app.post('/create', (request, response) => {
+	let markDownText = request.body
+    const content = markDownText.text
+    const dir = 'textos/' + markDownText.title
+	fs.writeFile(path.resolve(__dirname, dir), content, err => {
+		if (err) {
+		  console.error(err);
+		}
+	}); 
+    response.setHeader('Content-Type', 'application/json')
+	response.end(JSON.stringify({
+		text: content,
+        title: markDownText.title
+	}))
+})
