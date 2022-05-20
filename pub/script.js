@@ -10,7 +10,7 @@ function listar() {
             var name = data.text[i];
           html += '<li onclick=viewPages("'+name+'")>' + name + '</li>'
         }
-        html += '</ul>'
+        html += '</ul>\n<button onclick=formPage()>Crear</button>'
         document.querySelector("#lista").innerHTML = html
       }
     )
@@ -33,12 +33,34 @@ function viewPages(name) {
 		response => response.json()
 	).then(
 		data => {  
-			console.log(data)
+			document.querySelector("#lista").innerHTML = data.text
 		}
 	)
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-	listar()
+function formPage(){
+	html =  `
+			<form id="markupForm">
+            
+                <input type="text" id="markupTitle" placeholder='Ingrese el titulo'>
+				<textarea id="markupText" rows="10" cols="50" placeholder='Ingrese el texto'></textarea>
+				<input type="submit">
+  			</form>
+			<button onclick='listView()'>Lista</button>  
+
+	`
+	document.querySelector("#lista").innerHTML = html
+	createMarkdown()
+
+}
+function createMarkdown(){
+	const text = document.querySelector('#markupText')
+    const title = document.querySelector('#markupTitle')
+
+    document.querySelector('#markupForm').onsubmit = () => {
+		console.log(title.value,text.value)
+	  	return false;
 	}
-)
+}
+
+document.addEventListener('DOMContentLoaded', function() {listar()})

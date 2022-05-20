@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const bp = require('body-parser')
+const MarkdownIt = require('markdown-it'),
+	md = new MarkdownIt();
 const app = express()
 
 app.use(express.static('pub'))
@@ -26,7 +28,6 @@ app.get('/list', (request, response) => {
 
 app.post('/view', (request, response) => {
     let namePage = request.body.text
-	console.log(namePage)
 	let dir = 'textos/' + namePage;
     fs.readFile(path.resolve(__dirname, dir), 'utf8',
 		(err, data) => {
@@ -38,7 +39,7 @@ app.post('/view', (request, response) => {
 				return
 			}
 			response.json({
-				text: data.replace(/\n/g, '<br>')
+				text: md.render(data)
 			})
 		})
 	response.setHeader('Content-Type', 'application/json')
