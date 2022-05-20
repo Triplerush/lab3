@@ -7,13 +7,19 @@ function listar() {
       data => {
         let html = '<ul>';
         for(let i=0; i<data.text.length;i++){
-          html += '<li>' + data.text[i] + '</li>'
+            var name = data.text[i];
+          html += '<li onclick=viewPages("'+name+'")>' + name + '</li>'
         }
         html += '</ul>'
         document.querySelector("#lista").innerHTML = html
       }
     )
 }
+
+function viewPages(name){
+    console.log('Hello ' + name) 
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
 	listar()
