@@ -23,3 +23,13 @@ app.get('/list', (request, response) => {
 		text: fs.readdirSync(path.resolve(__dirname, 'textos/'))
 	})
 })
+
+app.post('/view', (request, response) => {
+    let namePage = request.body.text
+	console.log(namePage)
+	let dir = 'text/' + namePage;
+	response.setHeader('Content-Type', 'application/json')
+	response.end(JSON.stringify({
+		text: namePage
+	}))
+})

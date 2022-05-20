@@ -16,10 +16,27 @@ function listar() {
     )
 }
 
-function viewPages(name){
-    console.log('Hello ' + name) 
+function viewPages(name) {
+    const url = 'http://localhost:3000/view'
+	const data = {
+		text: name
+	}
+	
+	const request = {
+		method: 'POST', // Podría ser GET
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	}
+	fetch(url, request).then(
+		response => response.json()
+	).then(
+		data => {  
+			console.log(data)
+		}
+	)
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
 	listar()
